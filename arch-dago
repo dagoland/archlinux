@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Configure as partições do HD
+
+# Configuração do Teclado
+
+loadkeys br-abnt2
+
+# Configurando a Rede - DNS
+
+chattr -i /etc/resolv.conf
+sed -i '1,10d' /etc/resolv.conf | more
+su -c "echo 'domain google.com' >> /etc/resolv.conf"
+su -c "echo 'search google.com store.steampowered.com' >> /etc/resolv.conf"
+su -c "echo 'nameserver 8.8.8.8' >> /etc/resolv.conf"
+su -c "echo 'nameserver 8.8.4.4' >> /etc/resolv.conf"
+chattr +i /etc/resolv.conf
+
+##### Instalando o Sistema #####
+################################
+################################
+
+# Usando o script pacstrap instale os pacotes do grupo base e base-devel:
+
+pacstrap /mnt base base-devel
+
+# Criando o fstab
+
+genfstab -U -p /mnt >> /mnt/etc/fstab
+
+# Chroot e outras configurações
+# Chroot é o comando usado para irmos até a raiz de outro diretório. Até então estamos no Live-CD, mas agora iremos para o sistema instalado no HD. Execute: 
+
+arch-chroot /mnt /bin/bash
+
+# Agora você está no seu sistema Arch Linux propriamente. 
+# Primeiro vamos configurar o idioma. Precisaremos alterar dois arquivos: locale.gen e locale.conf. 
+# Abra o locale.gen: 
+# Removemos o # da frente das seguintes linhas: pt_BR.UTF-8 UTF-8 e pt_BR ISO-8859-1
+
+LOCALE=pt_BR
+sed -i '/'${LOCALE}'/s/^#//' /etc/locale.gen
+
+# Depois execute:
+
+locale-gen
+
+# Agora defina o idioma padrão do sistema criando ao mesmo tempo o arquivo locale.conf: 
+
+echo LANG=pt_BR.UTF-8 > /etc/locale.conf 
+export LANG=pt_BR.UTF-8 
+
+# No início do processo configuramos o teclado, mas estávamos no Live-CD. Agora configure o teclado no sistema recém instalado: 
+
+loadkeys br-abnt2 
+
+# Configure a zona de tempo: 
+
+ln -s /usr/share/zoneinfo/America/Recife /etc/localtime 
+
+# Usei America/Recife. No seu caso pode ser diferente. Para ver as opções disponíveis use o comando: 
+# ls /usr/share/zoneinfo/ 
+
+# Configuração do relógio em UTC: 
+
+hwclock --systohc --utc 
+
+# Defina o nome da máquina: 
+
+echo arch > /etc/hostname 
+
+# Por exemplo, pode-se usar "arch" ou "archlinux" ou o modelo do computador como "toshiba-is-1412". Você decide. Não use aspas. 
