@@ -20,7 +20,7 @@ chattr +i /etc/resolv.conf
 ################################
 ################################
 
-# Usando o script pacstrap instale os pacotes do grupo base e base-devel:
+# Usando o script pacstrap instalmos os pacotes do grupo base e base-devel:
 
 pacstrap /mnt base base-devel
 
@@ -54,7 +54,7 @@ export LANG=pt_BR.UTF-8
 
 loadkeys br-abnt2 
 
-# Configure a zona de tempo: 
+# Configuramos a zona de tempo: 
 
 ln -s /usr/share/zoneinfo/America/Recife /etc/localtime 
 
