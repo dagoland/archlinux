@@ -38,8 +38,7 @@ arch-chroot /mnt /bin/bash
 # Abra o locale.gen: 
 # Removemos o # da frente das seguintes linhas: pt_BR.UTF-8 UTF-8 e pt_BR ISO-8859-1
 
-LOCALE=pt_BR
-sed -i '/'${LOCALE}'/s/^#//' /etc/locale.gen
+sed -i '/pt_BR/s/^#//' /etc/locale.gen
 
 # Depois execute:
 
