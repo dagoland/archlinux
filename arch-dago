@@ -1,4 +1,32 @@
 #!/bin/bash
+#########################################
+##### Exemplo de particionamento ########
+#########################################
+# cfdisk /dev/sda
+# raiz: /                   /dev/sda1
+# home: /home               /dev/sda2
+# swap:  swap               /dev/sda3
+#########################################
+### Formatar a partição raiz /
+#
+# mkfs.ext4 /dev/sda1
+#
+## Formatar a partição /home
+#
+# mkfs.ext4 /dev/sda2
+#
+## Preparando a partição swap
+#
+# mkswap /dev/sda3 && swapon /dev/sda3
+#
+## Montar a partição raiz em /mnt
+#
+# mount /dev/sda1 /mnt
+#
+## Montar a partição home
+#
+# mkdir /mnt/home && mount /dev/sda2
+########################################
 
 # Configure as partições do HD
 
@@ -6,7 +34,9 @@
 
 loadkeys br-abnt2
 
-# Configurando a Rede - DNS
+##########################################################
+############### Configurando a Rede - DNS ################
+##########################################################
 
 chattr -i /etc/resolv.conf
 sed -i '1,10d' /etc/resolv.conf | more
@@ -16,11 +46,11 @@ su -c "echo 'nameserver 8.8.8.8' >> /etc/resolv.conf"
 su -c "echo 'nameserver 8.8.4.4' >> /etc/resolv.conf"
 chattr +i /etc/resolv.conf
 
-##### Instalando o Sistema #####
-################################
-################################
+##########################################################
+################ Instalação do Sistema ###################
+##########################################################
 
-# Usando o script pacstrap instalmos os pacotes do grupo base e base-devel:
+# Usando o script pacstrap instalamos os pacotes do grupo base e base-devel:
 
 pacstrap /mnt base base-devel
 
@@ -40,11 +70,11 @@ arch-chroot /mnt /bin/bash
 
 sed -i '/pt_BR/s/^#//' /etc/locale.gen
 
-# Depois execute:
+# Depois executamos:
 
 locale-gen
 
-# Agora defina o idioma padrão do sistema criando ao mesmo tempo o arquivo locale.conf: 
+# Agora definimos o idioma padrão do sistema criando ao mesmo tempo o arquivo locale.conf: 
 
 echo LANG=pt_BR.UTF-8 > /etc/locale.conf 
 export LANG=pt_BR.UTF-8 
@@ -69,3 +99,28 @@ hwclock --systohc --utc
 echo arch > /etc/hostname 
 
 # Por exemplo, pode-se usar "arch" ou "archlinux" ou o modelo do computador como "toshiba-is-1412". Você decide. Não use aspas. 
+
+# Configuração de Rede no Sistema Instalado
+
+systemctl enable dhcpcd@enp0s1.service
+
+# Instalação de alguns pacotes necessŕios para conexão a internet via wifi
+
+pacman -S wireless_tools wpa_supplicant wpa_actiond dialog -y
+
+# Após isso, habilite o serviço de conexão automática: 
+
+# systemctl enable net-auto-wired.service 
+
+############################################################
+# Configuração do Pacman, senha de root e criação de usuário
+############################################################
+
+
+
+
+
+
+
+
+
