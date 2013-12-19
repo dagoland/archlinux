@@ -56,10 +56,16 @@ pacstrap /mnt base base-devel
 
 # Criando o fstab
 
+# Aguarda 2 segundos
+sleep 2
+
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 # Chroot e outras configurações
 # Chroot é o comando usado para irmos até a raiz de outro diretório. Até então estamos no Live-CD, mas agora iremos para o sistema instalado no HD. Execute: 
+
+# Aguarda 2 segundos
+sleep 2
 
 arch-chroot /mnt /bin/bash
 
@@ -68,13 +74,22 @@ arch-chroot /mnt /bin/bash
 # Abra o locale.gen: 
 # Removemos o # da frente das seguintes linhas: pt_BR.UTF-8 UTF-8 e pt_BR ISO-8859-1
 
+# Aguarda 2 segundos
+sleep 2
+
 sed -i '/pt_BR/s/^#//' /etc/locale.gen
 
 # Depois executamos:
 
+# Aguarda 2 segundos
+sleep 2
+
 locale-gen
 
 # Agora definimos o idioma padrão do sistema criando ao mesmo tempo o arquivo locale.conf: 
+
+# Aguarda 2 segundos
+sleep 2
 
 echo LANG=pt_BR.UTF-8 > /etc/locale.conf 
 export LANG=pt_BR.UTF-8 
@@ -85,12 +100,18 @@ loadkeys br-abnt2
 
 # Configuramos a zona de tempo: 
 
+# Aguarda 2 segundos
+sleep 2
+
 ln -s /usr/share/zoneinfo/America/Recife /etc/localtime 
 
 # Usei America/Recife. No seu caso pode ser diferente. Para ver as opções disponíveis use o comando: 
 # ls /usr/share/zoneinfo/ 
 
 # Configuração do relógio em UTC: 
+
+# Aguarda 2 segundos
+sleep 2
 
 hwclock --systohc --utc 
 
