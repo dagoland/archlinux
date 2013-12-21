@@ -31,13 +31,13 @@
 # Configure as partições do HD
 
 # Configuração do Teclado
-
+echo "Configurando teclado para pt_BR"
 loadkeys br-abnt2
 
 ##########################################################
 ############### Configurando a Rede - DNS ################
 ##########################################################
-
+echo "Configurando DNS"
 chattr -i /etc/resolv.conf
 sed -i '1,10d' /etc/resolv.conf | more
 su -c "echo 'domain google.com' >> /etc/resolv.conf"
@@ -45,17 +45,17 @@ su -c "echo 'search google.com store.steampowered.com' >> /etc/resolv.conf"
 su -c "echo 'nameserver 8.8.8.8' >> /etc/resolv.conf"
 su -c "echo 'nameserver 8.8.4.4' >> /etc/resolv.conf"
 chattr +i /etc/resolv.conf
-
+echo "DNS Configurado"
 ##########################################################
 ################ Instalação do Sistema ###################
 ##########################################################
-
+echo "Instalando o Sistema Básico"
 # Usando o script pacstrap instalamos os pacotes do grupo base e base-devel:
 
 pacstrap /mnt base base-devel
 
 # Criando o fstab
-
+echo "Criando o fstab"
 # Aguarda 2 segundos
 sleep 2
 
@@ -73,7 +73,7 @@ arch-chroot /mnt /bin/bash
 # Primeiro vamos configurar o idioma. Precisaremos alterar dois arquivos: locale.gen e locale.conf. 
 # Abra o locale.gen: 
 # Removemos o # da frente das seguintes linhas: pt_BR.UTF-8 UTF-8 e pt_BR ISO-8859-1
-
+echo "Configurando locale.gen"
 # Aguarda 2 segundos
 sleep 2
 
@@ -87,10 +87,9 @@ sleep 2
 locale-gen
 
 # Agora definimos o idioma padrão do sistema criando ao mesmo tempo o arquivo locale.conf: 
-
+echo "Definindo o idioma padrão para português do Brasil" 
 # Aguarda 2 segundos
 sleep 2
-
 echo LANG=pt_BR.UTF-8 > /etc/locale.conf 
 export LANG=pt_BR.UTF-8 
 
@@ -99,10 +98,9 @@ export LANG=pt_BR.UTF-8
 loadkeys br-abnt2 
 
 # Configuramos a zona de tempo: 
-
+echo "Configurando Zona do tempo (localtime) para América Recife"
 # Aguarda 2 segundos
 sleep 2
-
 ln -s /usr/share/zoneinfo/America/Recife /etc/localtime 
 
 # Usei America/Recife. No seu caso pode ser diferente. Para ver as opções disponíveis use o comando: 
@@ -125,7 +123,7 @@ echo arch > /etc/hostname
 
 systemctl enable dhcpcd@enp0s1.service
 
-# Instalação de alguns pacotes necessŕios para conexão a internet via wifi
+# Instalação de alguns pacotes necessários para conexão a internet via wifi
 
 pacman -S wireless_tools wpa_supplicant wpa_actiond dialog -y
 
@@ -142,6 +140,9 @@ pacman -S wireless_tools wpa_supplicant wpa_actiond dialog -y
 
 
 
-
-
+############################################################
+################### Saindo do Script #######################
+exit
+############################################################
+############################################################
 
