@@ -135,11 +135,9 @@ pacman -S wireless_tools wpa_supplicant wpa_actiond dialog -y
 # Configuração do Pacman, senha de root e criação de usuário
 ############################################################
 
-
 ############################################################
 ####################### Multilib ###########################
-
-
+mv pacman.conf /etc/
 ############################################################
 ################### Saindo do Script #######################
 exit
