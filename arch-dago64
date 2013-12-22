@@ -130,6 +130,9 @@ systemctl enable networkmanager.service
 ############################################################
 ####################### Multilib ###########################
 mv pacman.conf /etc/
+echo "Atualizando a lista de pacotes (/etc/pacman.conf)"
+pacman -Syy
+pacman-key --init
 ############################################################
 # Antes de instalar o grub devemos preparar o randisk inicial:
 mkinitcpio -p linux
