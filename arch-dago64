@@ -56,16 +56,11 @@ pacstrap /mnt base base-devel
 
 # Criando o fstab
 echo "Criando o fstab"
-# Aguarda 2 segundos
-sleep 2
 
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 # Chroot e outras configurações
 # Chroot é o comando usado para irmos até a raiz de outro diretório. Até então estamos no Live-CD, mas agora iremos para o sistema instalado no HD. Execute: 
-
-# Aguarda 2 segundos
-sleep 2
 
 arch-chroot /mnt /bin/bash
 
@@ -80,9 +75,6 @@ sleep 2
 sed -i '/pt_BR/s/^#//' /etc/locale.gen
 
 # Depois executamos:
-
-# Aguarda 2 segundos
-sleep 2
 
 locale-gen
 
@@ -108,16 +100,13 @@ ln -s /usr/share/zoneinfo/America/Recife /etc/localtime 2> /dev/null
 
 # Configuração do relógio em UTC: 
 
-# Aguarda 2 segundos
-sleep 2
-
 hwclock --systohc --utc 
 
 # Defina o nome da máquina: 
 
 echo arch > /etc/hostname 
 
-# Por exemplo, pode-se usar "arch" ou "archlinux" ou o modelo do computador como "toshiba-is-1412". Você decide. Não use aspas. 
+# Por exemplo, pode-se usar "arch" ou "archlinux". Não use aspas. 
 
 # Configuração de Rede no Sistema Instalado
 
@@ -125,11 +114,13 @@ systemctl enable dhcpcd@enp0s1.service
 
 # Instalação de alguns pacotes necessários para conexão a internet via wifi
 
-pacman -S wireless_tools wpa_supplicant wpa_actiond dialog -y
+pacman -S wireless_tools wpa_supplicant wpa_actiond dialog 
+echo "Instalação do NetworkManager"
+pacman -S gnome-network-manager wireless_tools dbus hal
 
 # Após isso, habilite o serviço de conexão automática: 
 
-# systemctl enable net-auto-wired.service 
+systemctl enable networkmanager.service
 
 ############################################################
 # Configuração do Pacman, senha de root e criação de usuário
@@ -139,4 +130,31 @@ pacman -S wireless_tools wpa_supplicant wpa_actiond dialog -y
 ####################### Multilib ###########################
 mv pacman.conf /etc/
 ############################################################
+# Antes de instalar o grub devemos preparar o randisk inicial:
+mkinitcpio -p linux
 
+# Instalando o grub2:
+pacman -S  grub-bios
+
+# Instalando o Grub2 na partição de boot:
+grub-install –-target=i386-pc –-recheck –-debug /dev/sda
+
+mkdir -p /boot/grub/locale
+# Para evitar uma mensagem de erro (inofensiva) no momento da inicialização:
+cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
+
+# Para que outro sistema operacional seja reconhecido e apareça na lista do Grub, instale o pacote “os-prober” antes de gerar o grub.cfg:
+echo "Instalação de os-prober para reconhecimento de outros Sistemas Operacionais"
+pacman -S os-prober
+
+echo "Criando o grub.cfg"
+grub-mkconfig -o /boot/grub/grub.cfg
+clear
+############################################################
+############################################################
+############################################################
+# Adicionando uma senha root
+echo "Adicione uma senha para usuário root"
+passwd
+# Saindo do chroot:
+exit
