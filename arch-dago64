@@ -101,7 +101,7 @@ loadkeys br-abnt2
 echo "Configurando Zona do tempo (localtime) para América Recife"
 # Aguarda 2 segundos
 sleep 2
-ln -s /usr/share/zoneinfo/America/Recife /etc/localtime 
+ln -s /usr/share/zoneinfo/America/Recife /etc/localtime 2> /dev/null
 
 # Usei America/Recife. No seu caso pode ser diferente. Para ver as opções disponíveis use o comando: 
 # ls /usr/share/zoneinfo/ 
