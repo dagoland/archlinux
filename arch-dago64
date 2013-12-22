@@ -1,12 +1,12 @@
 #!/bin/bash
-#########################################
-##### Exemplo de particionamento ########
-#########################################
+##########################################################
+############## Exemplo de particionamento ################
+##########################################################
 # cfdisk /dev/sda
 # raiz: /                   /dev/sda1
 # home: /home               /dev/sda2
 # swap:  swap               /dev/sda3
-#########################################
+##########################################################
 ### Formatar a partição raiz /
 #
 # mkfs.ext4 /dev/sda1
@@ -85,7 +85,8 @@ sleep 2
 echo LANG=pt_BR.UTF-8 > /etc/locale.conf 
 export LANG=pt_BR.UTF-8 
 
-# No início do processo configuramos o teclado, mas estávamos no Live-CD. Agora configure o teclado no sistema recém instalado: 
+# No início do processo configuramos o teclado, mas estávamos no Live-CD. 
+# Agora configure o teclado no sistema recém instalado: 
 
 loadkeys br-abnt2 
 
@@ -143,7 +144,8 @@ mkdir -p /boot/grub/locale
 # Para evitar uma mensagem de erro (inofensiva) no momento da inicialização:
 cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
 
-# Para que outro sistema operacional seja reconhecido e apareça na lista do Grub, instale o pacote “os-prober” antes de gerar o grub.cfg:
+# Para que outro sistema operacional seja reconhecido e apareça na lista do Grub, 
+# instale o pacote “os-prober” antes de gerar o grub.cfg:
 echo "Instalação de os-prober para reconhecimento de outros Sistemas Operacionais"
 pacman -S os-prober
 
