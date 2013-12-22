@@ -160,3 +160,14 @@ echo "Adicione uma senha para usuário root"
 passwd
 # Saindo do chroot:
 exit
+# "Adicione um usuário para seu Sistema"
+adduser
+
+# Instalação do Servidor Xorg para ambiente gráfico
+
+pacman -S xorg-server xorg-server-utils xorg-xinit xf86-input-synaptics xf86-input-mouse xf86-input-keyboard mesa gamin
+
+# Saindo do chroot:
+exit
+# Saindo do Scrip Shell
+break
