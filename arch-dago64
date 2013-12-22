@@ -139,8 +139,16 @@ pacman -S wireless_tools wpa_supplicant wpa_actiond dialog -y
 ####################### Multilib ###########################
 mv pacman.conf /etc/
 ############################################################
-################### Saindo do Script #######################
-exit
-############################################################
-############################################################
+#}}}
+#SELECT/CREATE USER {{{
+select_user(){
+  #CREATE NEW USER {{{
+  create_new_user(){
+    read -p "Username: " USER_NAME
+    useradd -m -g users -G wheel -s /bin/bash ${USER_NAME}
+    chfn ${USER_NAME}
+    passwd ${USER_NAME}
+    pause_function
+    configure_user_account
+  }
 
