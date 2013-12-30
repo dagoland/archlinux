@@ -141,7 +141,7 @@ mkinitcpio -p linux
 pacman -S  grub-bios
 
 # Instalando o Grub2 na partição de boot:
-grub-install –-target=i386-pc –-recheck –-debug /dev/sda
+grub-install /dev/sda
 
 mkdir -p /boot/grub/locale
 # Para evitar uma mensagem de erro (inofensiva) no momento da inicialização:
