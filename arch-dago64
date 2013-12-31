@@ -147,6 +147,10 @@ mkdir -p /boot/grub/locale
 # Para evitar uma mensagem de erro (inofensiva) no momento da inicialização:
 cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
 
+############################################################
+# Concertando arquivo /etc/default/grub
+echo GRUB_DISABLE_SUBMENU=y > /etc/default/grub
+
 # Para que outro sistema operacional seja reconhecido e apareça na lista do Grub, 
 # instale o pacote “os-prober” antes de gerar o grub.cfg:
 echo "Instalação de os-prober para reconhecimento de outros Sistemas Operacionais"
@@ -172,5 +176,4 @@ pacman -S xorg-server xorg-server-utils xorg-xinit xf86-input-synaptics xf86-inp
 
 # Saindo do chroot:
 exit
-# Saindo do Scrip Shell
-break
+
