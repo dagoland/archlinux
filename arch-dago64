@@ -138,7 +138,7 @@ pacman-key --init
 mkinitcpio -p linux
 
 # Instalando o grub2:
-pacman -S  grub-bios
+pacman -S grub-bios
 
 # Instalando o Grub2 na partição de boot:
 grub-install /dev/sda
